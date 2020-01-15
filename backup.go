@@ -27,7 +27,7 @@ func backUp(backupDir string, repo *Repository, wg *sync.WaitGroup) ([]byte, err
 	var stdoutStderr []byte
 	if err == nil {
 		log.Printf("%s exists, updating. \n", repo.Name)
-		cmd := execCommand(gitCommand, "-C", repoDir, "pull")
+		cmd := execCommand(gitCommand, "-C", repoDir, "remote", "update", "--prune")
 		stdoutStderr, err = cmd.CombinedOutput()
 	} else {
 		log.Printf("Cloning %s\n", repo.Name)
@@ -43,7 +43,7 @@ func backUp(backupDir string, repo *Repository, wg *sync.WaitGroup) ([]byte, err
 			repo.CloneURL = u.Scheme + "://" + gitHostUsername + ":" + gitHostToken + "@" + u.Host + u.Path
 		}
 
-		cmd := execCommand(gitCommand, "clone", repo.CloneURL, repoDir)
+		cmd := execCommand(gitCommand, "clone", "--mirror", repo.CloneURL, repoDir)
 		stdoutStderr, err = cmd.CombinedOutput()
 	}
 
