@@ -1,6 +1,44 @@
 # gitbackup - Backup your GitHub and GitLab repositories
-Code Quality [![Go Report Card](https://goreportcard.com/badge/github.com/amitsaha/gitbackup)](https://goreportcard.com/report/github.com/amitsaha/gitbackup)
-Linux/Mac OS X [![Build Status](https://travis-ci.org/amitsaha/gitbackup.svg?branch=master)](https://travis-ci.org/amitsaha/gitbackup) Windows [![Build status](https://ci.appveyor.com/api/projects/status/fwki40x1havyian2/branch/master?svg=true)](https://ci.appveyor.com/project/amitsaha/gitbackup/branch/master) 
+
+## IMPORTANT: This is a FORK of the [original gitbackup](https://github.com/amitsaha/gitbackup) 
+
+### TL;DR:
+
+Original version:
+
+* Initial Backup: `git clone <repo>`
+* Update: `git pull`
+    
+This version:
+
+* Initial Backup: `git clone --mirror <repo>`
+* Update: `git remote update --prune <repo>
+
+### But Why?
+
+The original gitbackup is a pretty great tool, and very well
+documented, but it doesn't actually do what I wanted. I wanted a
+*FULL* backup of my Gitlab, including tags and remote branches, so
+that any work that got pushed to Gitlab would end up in my backup,
+*even if it were never merged to master*. The original gitbackup does
+a 'normal' git clone and then 'updates' by calling 'git pull' on the
+master branch. This is fine for some use cases, but not what I was
+looking for..
+
+This version creates a *bare* git mirror repository. In order to use
+your gackup, you need to clone from the backup into a *working* git
+repo.
+
+I'll probably eventually packge this into a PR for the original, and
+make it conditional on a --full-backup option or something, but right
+now I just need a thing that works.
+
+
+
+### Original README Follows:
+---
+#Code Quality [![Go Report Card](https://goreportcard.com/badge/github.com/amitsaha/gitbackup)](https://goreportcard.com/report/github.com/amitsaha/gitbackup)
+#Linux/Mac OS X [![Build Status](https://travis-ci.org/amitsaha/gitbackup.svg?branch=master)](https://travis-ci.org/amitsaha/gitbackup) Windows [![Build status](https://ci.appveyor.com/api/projects/status/fwki40x1havyian2/branch/master?svg=true)](https://ci.appveyor.com/project/amitsaha/gitbackup/branch/master) 
 
 ``gitbackup`` is a tool to backup your git repositories from GitHub (including GitHub enterprise) or
 GitLab (including custom GitLab installations).
