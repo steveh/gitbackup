@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/google/go-github/v32/github"
+	bitbucket "github.com/ktrysmt/go-bitbucket"
 	gitlab "github.com/xanzy/go-gitlab"
 	"golang.org/x/oauth2"
 )
@@ -54,5 +55,26 @@ func newClient(service string, gitHostURL string) interface{} {
 		}
 		return client
 	}
+
+	if service == "bitbucket" {
+		bitbucketUsername := os.Getenv("BITBUCKET_USERNAME")
+		if bitbucketUsername == "" {
+			log.Fatal("BITBUCKET_USERNAME environment variable not set")
+		}
+
+		bitbucketPassword := os.Getenv("BITBUCKET_PASSWORD")
+		if bitbucketPassword == "" {
+			log.Fatal("BITBUCKET_PASSWORD environment variable not set")
+		}
+
+		gitHostToken = bitbucketPassword
+
+		client := bitbucket.NewBasicAuth(bitbucketUsername, bitbucketPassword)
+		if gitHostURLParsed != nil {
+			client.SetApiBaseURL(gitHostURLParsed.String())
+		}
+		return client
+	}
+
 	return nil
 }

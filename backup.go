@@ -21,7 +21,7 @@ var gitCommand = "git"
 func backUp(backupDir string, repo *Repository, wg *sync.WaitGroup) ([]byte, error) {
 	defer wg.Done()
 
-	repoDir := path.Join(backupDir, repo.Namespace, repo.Name + ".git")
+	repoDir := path.Join(backupDir, repo.Namespace, repo.Name+".git")
 	_, err := appFS.Stat(repoDir)
 
 	var stdoutStderr []byte
